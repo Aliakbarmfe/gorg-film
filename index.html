@@ -266,9 +266,9 @@
       content: '';
       width: 7px;
       height: 7px;
-      background: #10b981; /* تغییر رنگ دایره به سبز */
+      background: #10b981;
       border-radius: 50%;
-      box-shadow: 0 0 8px #10b981; /* تغییر رنگ Glow دایره به سبز */
+      box-shadow: 0 0 8px #10b981;
     }
 
     .series-info {
@@ -355,7 +355,7 @@
 
     .episode-number {
       font-size: 0.72rem;
-      color: #10b981; /* تغییر رنگ متن شماره قسمت به سبز هماهنگ */
+      color: #10b981;
       font-weight: 800;
       letter-spacing: 0.5px;
       text-transform: uppercase;
@@ -666,8 +666,13 @@
 
       let html = '';
       if (serial.episodes) {
-        for (const [epId, episode] of Object.entries(serial.episodes)) {
+        // معکوس کردن لیست قسمت‌ها تا قسمت‌های جدیدتر (شماره بالاتر) بالاتر قرار بگیرند
+        const sortedEpisodes = Object.entries(serial.episodes).reverse();
+
+        for (const [epId, episode] of sortedEpisodes) {
           const sizesEncoded = encodeURIComponent(JSON.stringify(episode.sizes || {}));
+          // لینک دانلود و تماشا هر دو از episode.link خوانده می‌شوند
+          const episodeLink = episode.link || '#';
 
           html += `
             <div class="episode-card">
@@ -681,11 +686,11 @@
                 </div>
               </div>
               <div class="episode-actions">
-                <button class="btn btn-download" onclick='openDownloadModal("${episode.name}", "${sizesEncoded}")'>
+                <button class="btn btn-download" onclick='openDownloadModal("${episode.name}", "${sizesEncoded}", "${episodeLink}")'>
                   <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
                   دانلود
                 </button>
-                <a href="${episode.link || '#'}" target="_blank" class="btn btn-play">
+                <a href="${episodeLink}" target="_blank" class="btn btn-play">
                   <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                   تماشا
                 </a>
@@ -707,7 +712,7 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function openDownloadModal(episodeName, sizesJsonStr) {
+    function openDownloadModal(episodeName, sizesJsonStr, episodeLink) {
       modalEpisodeTitle.innerText = `دانلود ${episodeName}`;
       
       let sizes = {};
@@ -725,7 +730,7 @@
       for (const [resKey, sizeVal] of Object.entries(sizes)) {
         const info = qualityLabels[resKey] || { title: `کیفیت ${resKey}p`, format: "فرمت: ویدیو" };
         qHtml += `
-          <a href="#" class="quality-option" onclick="alert('لینک دانلود کیفیت ${resKey}p آماده است')">
+          <a href="${episodeLink}" target="_blank" class="quality-option">
             <div class="quality-info">
               <span class="q-title">${info.title}</span>
               <span class="q-size">${info.format}</span>
@@ -757,4 +762,3 @@
 
 </body>
 </html>
- 
