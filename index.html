@@ -9,9 +9,6 @@
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
 
   <style>
-    /* ==========================================
-       ۱. متغیرها و پالت رنگی گرگی / تیره
-       ========================================== */
     :root {
       --bg-dark: #090b0e;
       --card-bg: rgba(18, 22, 28, 0.85);
@@ -49,9 +46,6 @@
       gap: 20px;
     }
 
-    /* ==========================================
-       ۲. هدر با نماد گرگ
-       ========================================== */
     .header {
       text-align: center;
       padding: 10px 0;
@@ -92,7 +86,6 @@
       color: var(--text-sub);
     }
 
-    /* دکمه بازگشت */
     .back-btn {
       display: none;
       align-items: center;
@@ -114,9 +107,6 @@
       color: #fff;
     }
 
-    /* ==========================================
-       ۳. نمای اول: لیست سریال‌ها (عکس بزرگ در وسط، اسم و قسمت در زیر)
-       ========================================== */
     .series-grid {
       display: flex;
       flex-direction: column;
@@ -141,7 +131,6 @@
       border-color: rgba(220, 38, 38, 0.6);
     }
 
-    /* عکس بزرگ در وسط */
     .series-img {
       width: 100%;
       height: 220px;
@@ -149,7 +138,6 @@
       background-color: #1f2937;
     }
 
-    /* اطلاعات زیر عکس */
     .series-info {
       padding: 16px;
       display: flex;
@@ -183,9 +171,6 @@
       color: var(--text-sub);
     }
 
-    /* ==========================================
-       ۴. نمای دوم: لیست قسمت‌های سریال (همان ساختار تایید شده)
-       ========================================== */
     .episodes-view {
       display: none;
       flex-direction: column;
@@ -276,9 +261,6 @@
       opacity: 0.9;
     }
 
-    /* ==========================================
-       ۵. مودال کیفیت‌ها
-       ========================================== */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -369,13 +351,18 @@
       font-size: 0.75rem;
       color: var(--text-sub);
     }
+
+    .loading-text {
+      text-align: center;
+      color: var(--text-sub);
+      padding: 20px;
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
 
-    <!-- هدر سایت -->
     <header class="header">
       <div class="wolf-brand">
         <svg class="wolf-svg" viewBox="0 0 24 24">
@@ -386,127 +373,118 @@
       <p class="subtitle">پخش و دانلود اختصاصی با استایل سینمایی</p>
     </header>
 
-    <!-- دکمه بازگشت -->
     <button class="back-btn" id="back-btn" onclick="showSeriesList()">
       ← بازگشت به لیست سریال‌ها
     </button>
 
-    <!-- ۱. لیست سریال‌ها (عکس بزرگ در وسط، اسم و قسمت‌ها در زیر) -->
     <main class="series-grid" id="series-view">
-      
-      <!-- سریال ۱ -->
-      <div class="series-card" onclick="openSeries('سریال سرخ و سیاه', 12)">
-        <img class="series-img" src="https://via.placeholder.com/500x280/1e293b/94a3b8?text=Wolf+Series+Banner+1" alt="عکس سریال">
-        <div class="series-info">
-          <div class="series-title-row">
-            <h2 class="series-title">سریال سرخ و سیاه</h2>
-            <span class="badge-count">۱۲ قسمت</span>
-          </div>
-          <span class="series-meta">ژانر: درام، هیجان‌انگیز | سال انتشار: ۱۴۰۲</span>
-        </div>
-      </div>
-
-      <!-- سریال ۲ -->
-      <div class="series-card" onclick="openSeries('سریال سایه گرگ', 8)">
-        <img class="series-img" src="https://via.placeholder.com/500x280/1e293b/94a3b8?text=Wolf+Series+Banner+2" alt="عکس سریال">
-        <div class="series-info">
-          <div class="series-title-row">
-            <h2 class="series-title">سریال سایه گرگ</h2>
-            <span class="badge-count">۸ قسمت</span>
-          </div>
-          <span class="series-meta">ژانر: اکشن، رازآلود | سال انتشار: ۱۴۰۳</span>
-        </div>
-      </div>
-
-      <!-- سریال ۳ -->
-      <div class="series-card" onclick="openSeries('سریال شب‌های تاریک', 10)">
-        <img class="series-img" src="https://via.placeholder.com/500x280/1e293b/94a3b8?text=Wolf+Series+Banner+3" alt="عکس سریال">
-        <div class="series-info">
-          <div class="series-title-row">
-            <h2 class="series-title">سریال شب‌های تاریک</h2>
-            <span class="badge-count">۱۰ قسمت</span>
-          </div>
-          <span class="series-meta">ژانر: جنایی، معمایی | سال انتشار: ۱۴۰۱</span>
-        </div>
-      </div>
-
+      <div class="loading-text">در حال بارگذاری سریال‌ها...</div>
     </main>
 
-    <!-- ۲. لیست قسمت‌های سریال (ساختار لیستی مورد تایید) -->
     <main class="episodes-view" id="episodes-view"></main>
 
   </div>
 
-  <!-- ۳. مودال کیفیت‌ها -->
   <div class="modal-overlay" id="quality-modal">
     <div class="modal-content">
       <div class="modal-header">
         <span class="modal-title" id="modal-episode-title">انتخاب کیفیت دانلود</span>
         <button class="close-modal" onclick="closeModal()">✕</button>
       </div>
-
-      <a href="#" class="quality-option">
-        <div class="quality-info">
-          <span class="q-title">کیفیت 1080p Full HD</span>
-          <span class="q-size">فرمت: MKV</span>
-        </div>
-        <span style="font-size: 0.85rem; font-weight:700; color:var(--crimson-red);">1.2 GB</span>
-      </a>
-
-      <a href="#" class="quality-option">
-        <div class="quality-info">
-          <span class="q-title">کیفیت 720p HD</span>
-          <span class="q-size">فرمت: MP4</span>
-        </div>
-        <span style="font-size: 0.85rem; font-weight:700; color:var(--wolf-silver);">650 MB</span>
-      </a>
-
-      <a href="#" class="quality-option">
-        <div class="quality-info">
-          <span class="q-title">کیفیت 480p SD</span>
-          <span class="q-size">فرمت: MP4</span>
-        </div>
-        <span style="font-size: 0.85rem; font-weight:700; color:var(--text-sub);">350 MB</span>
-      </a>
+      <div id="modal-qualities-list" style="display: flex; flex-direction: column; gap: 10px;">
+        <!-- لیست کیفیت‌ها به صورت داینامیک پر می‌شود -->
+      </div>
     </div>
   </div>
 
-  <!-- جاوا اسکریپت -->
   <script>
+    let allSeriesData = {};
+
     const seriesView = document.getElementById('series-view');
     const episodesView = document.getElementById('episodes-view');
     const backBtn = document.getElementById('back-btn');
     const pageTitle = document.getElementById('page-title');
     const qualityModal = document.getElementById('quality-modal');
     const modalEpisodeTitle = document.getElementById('modal-episode-title');
+    const modalQualitiesList = document.getElementById('modal-qualities-list');
 
-    function openSeries(title, totalEpisodes) {
-      seriesView.style.display = 'none';
-      episodesView.style.display = 'flex';
-      backBtn.style.display = 'flex';
-      pageTitle.innerText = title;
+    // دریافت اطلاعات از API ورسل
+    async function fetchSeries() {
+      try {
+        const response = await fetch('/api/serials');
+        allSeriesData = await response.json();
+        renderSeriesList();
+      } catch (error) {
+        seriesView.innerHTML = `<div class="loading-text" style="color:var(--crimson-red);">خطا در دریافت اطلاعات از سرور</div>`;
+        console.error(error);
+      }
+    }
+
+    function renderSeriesList() {
+      if (!allSeriesData || Object.keys(allSeriesData).length === 0) {
+        seriesView.innerHTML = `<div class="loading-text">سریالی یافت نشد.</div>`;
+        return;
+      }
 
       let html = '';
-      for (let i = 1; i <= totalEpisodes; i++) {
+      for (const [serialId, serial] of Object.entries(allSeriesData)) {
+        const epCount = serial.episodes ? Object.keys(serial.episodes).length : (serial.epCount || 0);
+        const genresStr = serial.genres ? serial.genres.join('، ') : '';
+
         html += `
-          <div class="episode-card">
-            <div class="episode-top">
-              <img class="episode-img" src="https://via.placeholder.com/120x80/1f2937/9ca3af?text=Ep+${i}" alt="عکس قسمت">
-              <div class="episode-details">
-                <span class="episode-number">قسمت ${i}</span>
-                <h3 class="episode-name">عنوان اتفاقات قسمت ${i}</h3>
+          <div class="series-card" onclick="openSeries('${serialId}')">
+            <img class="series-img" src="${serial.image || 'https://via.placeholder.com/500x280/1e293b/94a3b8?text=Wolf+Series'}" alt="${serial.name}">
+            <div class="series-info">
+              <div class="series-title-row">
+                <h2 class="series-title">${serial.name}</h2>
+                <span class="badge-count">${epCount} قسمت</span>
               </div>
-            </div>
-            <div class="episode-actions">
-              <button class="btn btn-download" onclick="openDownloadModal('قسمت ${i} - ${title}')">
-                📥 دانلود کیفیت‌ها
-              </button>
-              <a href="#" class="btn btn-play">
-                ▶ تماشای آنلاین
-              </a>
+              <span class="series-meta">ژانر: ${genresStr}</span>
             </div>
           </div>
         `;
+      }
+      seriesView.innerHTML = html;
+    }
+
+    function openSeries(serialId) {
+      const serial = allSeriesData[serialId];
+      if (!serial) return;
+
+      seriesView.style.display = 'none';
+      episodesView.style.display = 'flex';
+      backBtn.style.display = 'flex';
+      pageTitle.innerText = serial.name;
+
+      let html = '';
+      if (serial.episodes) {
+        for (const [epId, episode] of Object.entries(serial.episodes)) {
+          // تبدیل آبجکت سایزها به جیسون برای استفاده در دکمه دانلود
+          const sizesEncoded = encodeURIComponent(JSON.stringify(episode.sizes || {}));
+          const linkEncoded = encodeURIComponent(episode.link || '#');
+
+          html += `
+            <div class="episode-card">
+              <div class="episode-top">
+                <img class="episode-img" src="${episode.image || serial.image || 'https://via.placeholder.com/120x80/1f2937/9ca3af?text=Ep'}" alt="قسمت ${episode.number}">
+                <div class="episode-details">
+                  <span class="episode-number">قسمت ${episode.number}</span>
+                  <h3 class="episode-name">${episode.name}</h3>
+                </div>
+              </div>
+              <div class="episode-actions">
+                <button class="btn btn-download" onclick='openDownloadModal("${episode.name}", "${sizesEncoded}")'>
+                  📥 دانلود کیفیت‌ها
+                </button>
+                <a href="${episode.link || '#'}" target="_blank" class="btn btn-play">
+                  ▶ تماشای آنلاین
+                </a>
+              </div>
+            </div>
+          `;
+        }
+      } else {
+        html = `<div class="loading-text">قسمتی برای این سریال ثبت نشده است.</div>`;
       }
       episodesView.innerHTML = html;
     }
@@ -518,8 +496,39 @@
       pageTitle.innerText = 'آرشیو سریال‌ها';
     }
 
-    function openDownloadModal(episodeName) {
+    function openDownloadModal(episodeName, sizesJsonStr) {
       modalEpisodeTitle.innerText = `دانلود ${episodeName}`;
+      
+      let sizes = {};
+      try {
+        sizes = JSON.parse(decodeURIComponent(sizesJsonStr));
+      } catch(e) {}
+
+      let qHtml = '';
+      const qualityLabels = {
+        "480": { title: "کیفیت 480p SD", format: "فرمت: MP4" },
+        "720": { title: "کیفیت 720p HD", format: "فرمت: MP4" },
+        "1080": { title: "کیفیت 1080p Full HD", format: "فرمت: MKV" }
+      };
+
+      for (const [resKey, sizeVal] of Object.entries(sizes)) {
+        const info = qualityLabels[resKey] || { title: `کیفیت ${resKey}p`, format: "فرمت: ویدیو" };
+        qHtml += `
+          <a href="#" class="quality-option" onclick="alert('لینک دانلود کیفیت ${resKey}p آماده است')">
+            <div class="quality-info">
+              <span class="q-title">${info.title}</span>
+              <span class="q-size">${info.format}</span>
+            </div>
+            <span style="font-size: 0.85rem; font-weight:700; color:var(--crimson-red);">${sizeVal}</span>
+          </a>
+        `;
+      }
+
+      if (qHtml === '') {
+        qHtml = `<div class="loading-text">کیفیتی برای دانلود ثبت نشده است.</div>`;
+      }
+
+      modalQualitiesList.innerHTML = qHtml;
       qualityModal.classList.add('active');
     }
 
@@ -530,7 +539,11 @@
     qualityModal.addEventListener('click', (e) => {
       if (e.target === qualityModal) closeModal();
     });
+
+    // شروع کار و لود اطلاعات از سرور
+    fetchSeries();
   </script>
 
 </body>
 </html>
+ 
