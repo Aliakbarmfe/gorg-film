@@ -3,7 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>پلتفرم پخش و دانلود سریال‌ها - اختصاصی</title>
+  
+  <!-- تگ تأیید گوگل سرچ کنسول -->
+  <meta name="google-site-verification" content="33T2Yd543fsmgIfJWMJb6P1nrmg8Fi-BP1nO9mCNarE" />
+
+  <!-- سئو و عنوان سایت برای سرچ گوگل -->
+  <title>دانلود سریال سرخ و سیاه با لینک مستقیم و پخش آنلاین</title>
+  <meta name="description" content="پخش آنلاین و دانلود سریال سرخ و سیاه با کیفیت عالی، حجم مناسب و لینک مستقیم از پلتفرم اختصاصی فیلم و سریال.">
   
   <!-- فونت فارسی وزیرمتن -->
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
@@ -562,7 +568,7 @@
           <path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4h-2l2 4h-3l-2-4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4zm-6 10l-4-2.5v5l4-2.5z"/>
         </svg>
       </div>
-      <h1 class="title" id="page-title">آرشیو سریال‌ها</h1>
+      <h1 class="title" id="page-title">سریال سرخ و سیاه</h1>
       <p class="subtitle">پخش آنلاین و دانلود بی‌وقفه کیفیت بالا</p>
     </header>
 
@@ -666,12 +672,10 @@
 
       let html = '';
       if (serial.episodes) {
-        // معکوس کردن لیست قسمت‌ها تا قسمت‌های جدیدتر (شماره بالاتر) بالاتر قرار بگیرند
         const sortedEpisodes = Object.entries(serial.episodes).reverse();
 
         for (const [epId, episode] of sortedEpisodes) {
           const sizesEncoded = encodeURIComponent(JSON.stringify(episode.sizes || {}));
-          // لینک دانلود و تماشا هر دو از episode.link خوانده می‌شوند
           const episodeLink = episode.link || '#';
 
           html += `
@@ -708,7 +712,7 @@
       episodesView.style.display = 'none';
       seriesView.style.display = 'flex';
       backBtn.style.display = 'none';
-      pageTitle.innerText = 'آرشیو سریال‌ها';
+      pageTitle.innerText = 'سریال سرخ و سیاه';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -756,9 +760,9 @@
       if (e.target === qualityModal) closeModal();
     });
 
-    // شروع کار و لود اطلاعات از سرور
     fetchSeries();
   </script>
 
 </body>
 </html>
+ 
