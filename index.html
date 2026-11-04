@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سریال سرخ و سیاه | پخش و دانلود اختصاصی</title>
+  
+  <!-- وب‌فونت وزیرمتن برای فونت مدرن و شیک فارسی -->
+  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+
+  <style>
+    /* ==========================================
+       ۱. متغیرهای رنگی (پالت گرگی و سینمایی)
+       ========================================== */
+    :root {
+      --bg-dark: #0b0d10;           /* مشکی/زغالی تیره عمیق */
+      --card-bg: rgba(22, 27, 34, 0.65); /* شیشه‌ای نیمه‌شفاف */
+      --wolf-silver: #d1d5db;       /* نقره‌ای پوست گرگ */
+      --wolf-gray: #4b5563;         /* خاکستری تیره */
+      --crimson-red: #dc2626;       /* سرخ خونین / تاکیدی */
+      --crimson-glow: rgba(220, 38, 38, 0.35); /* هاله سرخ */
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f3f4f6;
+      --text-sub: #9ca3af;
+    }
+
+    /* ==========================================
+       ۲. تنظیمات پایه و پس‌زمینه
+       ========================================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Vazirmatn', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px 15px;
+      overflow-x: hidden;
+      /* ساخت افکت مه محو شبانه با گرادینت */
+      background-image: 
+        radial-gradient(circle at 50% 10%, rgba(220, 38, 38, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(75, 85, 99, 0.08) 0%, transparent 50%);
+    }
+
+    /* کانتینر اصلی موبایل / وب */
+    .app-container {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* ==========================================
+       ۳. هدر و نماد گرگ (Wolf Branding)
+       ========================================== */
+    .header {
+      text-align: center;
+      padding: 20px 0 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* آیکون گرگ مدرن (SVG هندسی) */
+    .wolf-icon-wrapper {
+      width: 70px;
+      height: 70px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--glass-border);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 12px;
+      box-shadow: 0 0 25px var(--crimson-glow);
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .wolf-icon-wrapper:hover {
+      transform: scale(1.08) rotate(3deg);
+      border-color: var(--crimson-red);
+      box-shadow: 0 0 35px rgba(220, 38, 38, 0.6);
+    }
+
+    .wolf-svg {
+      width: 42px;
+      height: 42px;
+      fill: var(--wolf-silver);
+      transition: fill 0.4s ease;
+    }
+
+    .wolf-icon-wrapper:hover .wolf-svg {
+      fill: var(--crimson-red);
+    }
+
+    .title {
+      font-size: 1.75rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 30%, var(--wolf-silver) 70%, var(--crimson-red) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      font-weight: 300;
+    }
+
+    /* ==========================================
+       ۴. قاب ویدیو پیش‌نمایش (با افکت اسلوموشن)
+       ========================================== */
+    .hero-video-card {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .video-wrapper video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.85;
+      /* transition برای افکت اسلوموشن روی ویدیو هنگام هاور */
+      transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1), filter 0.8s ease;
+    }
+
+    .hero-video-card:hover .video-wrapper video {
+      transform: scale(1.06);
+      opacity: 1;
+    }
+
+    .badge-live {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(220, 38, 38, 0.85);
+      backdrop-filter: blur(4px);
+      color: #fff;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
+    }
+
+    .badge-live::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: #fff;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .video-info {
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .episode-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    /* ==========================================
+       ۵. سیستم تب‌بندی قسمت‌ها (Tabs)
+       ========================================== */
+    .episodes-nav {
+      display: flex;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 4px;
+      border-radius: 14px;
+      border: 1px solid var(--glass-border);
+    }
+
+    .tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--text-sub);
+      padding: 10px 0;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      /* انیمیشن نرم اسلوموشن در سوئیچ تب‌ها */
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .tab-btn.active {
+      background: var(--crimson-red);
+      color: #fff;
+      box-shadow: 0 4px 15px var(--crimson-glow);
+    }
+
+    /* ==========================================
+       ۶. لیست کیفیت‌ها با افکت Glassmorphism & Hover
+       ========================================== */
+    .download-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .download-card {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 16px;
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-decoration: none;
+      color: var(--text-main);
+      /* انیمیشن اسلوموشن برای افکت هاور */
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* خط نئونی نقره‌ای/سرخ هنگام حرکت ماوس */
+    .download-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--wolf-silver);
+      transition: background 0.4s ease, width 0.4s ease;
+    }
+
+    .download-card:hover {
+      transform: translateY(-3px) scale(1.01);
+      border-color: rgba(220, 38, 38, 0.4);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .download-card:hover::before {
+      background: var(--crimson-red);
+      width: 6px;
+    }
+
+    .quality-details {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .quality-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .quality-tag {
+      font-size: 0.65rem;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 6px;
+      border-radius: 6px;
+      color: var(--wolf-silver);
+    }
+
+    .quality-size {
+      font-size: 0.75rem;
+      color: var(--text-sub);
+    }
+
+    .btn-action {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--wolf-silver);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 8px 14px;
+      border-radius: 10px;
+      transition: all 0.4s ease;
+    }
+
+    .download-card:hover .btn-action {
+      background: var(--crimson-red);
+      color: #fff;
+      box-shadow: 0 4px 12px var(--crimson-glow);
+    }
+
+    /* ==========================================
+       ۷. فوتر مینی‌مال
+       ========================================== */
+    .footer {
+      text-align: center;
+      padding: 15px 0;
+      font-size: 0.75rem;
+      color: var(--text-sub);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .footer span {
+      color: var(--crimson-red);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- هدر با آیکون هندسی گرگ -->
+    <header class="header">
+      <div class="wolf-icon-wrapper">
+        <!-- SVG نماد سر گرگ مدرن -->
+        <svg class="wolf-svg" viewBox="0 0 24 24">
+          <path d="M12 2L4 9l2 9 6 3 6-3 2-9-8-7zm0 3.8l4.8 4.2-1.2 5.4-3.6 1.8-3.6-1.8-1.2-5.4L12 5.8z"/>
+        </svg>
+      </div>
+      <h1 class="title">سریال سرخ و سیاه</h1>
+      <p class="subtitle">پلتفرم اختصاصی پخش و دانلود با کیفیت بالا</p>
+    </header>
+
+    <!-- ویدیو پیش‌نمایش تریلر -->
+    <div class="hero-video-card">
+      <div class="video-wrapper">
+        <span class="badge-live">قسمت جدید</span>
+        <!-- نمونه ویدیو با قابلیت پخش خودکار و بی‌صدا -->
+        <video autoplay loop muted playsinline poster="https://via.placeholder.com/600x337/161b22/d1d5db?text=Red+%26+Black+Series">
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-dramatic-dark-smoke-and-lights-40893-large.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="video-info">
+        <span class="episode-title">قسمت ۳ (فصل اول)</span>
+        <span style="font-size: 0.75rem; color: var(--text-sub);">مدت زمان: ۵۴ دقیقه</span>
+      </div>
+    </div>
+
+    <!-- تب‌های انتخاب قسمت -->
+    <div class="episodes-nav">
+      <button class="tab-btn active">قسمت ۳</button>
+      <button class="tab-btn">قسمت ۲</button>
+      <button class="tab-btn">قسمت ۱</button>
+    </div>
+
+    <!-- لیست دکمه‌های دانلود مدرن شیشه‌ای -->
+    <main class="download-section">
+
+      <!-- کیفیت 1080p -->
+      <a href="#" class="download-card">
+        <div class="quality-details">
+          <div class="quality-name">
+            کیفیت Full HD 1080p
+            <span class="quality-tag">پیشنهادی</span>
+          </div>
+          <span class="quality-size">حجم: ۱.۲ گیگابایت | فرمت: MKV</span>
+        </div>
+        <div class="btn-action">
+          <span>دانلود</span>
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+          </svg>
+        </div>
+      </a>
+
+      <!-- کیفیت 720p -->
+      <a href="#" class="download-card">
+        <div class="quality-details">
+          <div class="quality-name">
+            کیفیت HD 720p
+          </div>
+          <span class="quality-size">حجم: ۶۵۰ مگابایت | فرمت: MP4</span>
+        </div>
+        <div class="btn-action">
+          <span>دانلود</span>
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+          </svg>
+        </div>
+      </a>
+
+      <!-- کیفیت 480p -->
+      <a href="#" class="download-card">
+        <div class="quality-details">
+          <div class="quality-name">
+            کیفیت Standard 480p
+          </div>
+          <span class="quality-size">حجم: ۳۵۰ مگابایت | فرمت: MP4</span>
+        </div>
+        <div class="btn-action">
+          <span>دانلود</span>
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+          </svg>
+        </div>
+      </a>
+
+      <!-- دکمه پخش آنلاین -->
+      <a href="#" class="download-card" style="border-color: rgba(220, 38, 38, 0.3);">
+        <div class="quality-details">
+          <div class="quality-name" style="color: #ef4444;">
+            تماشای آنلاین تمام کیفیت‌ها
+          </div>
+          <span class="quality-size">بدون نیاز به دانلود (پخش فوری)</span>
+        </div>
+        <div class="btn-action" style="background: var(--crimson-red); color: #fff;">
+          <span>پخش</span>
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+        </div>
+      </a>
+
+    </main>
+
+    <!-- فوتر -->
+    <footer class="footer">
+      طراحی شده با الهام از نماد <span>گرگ</span> و استایل سینمایی مدرن
+    </footer>
+
+  </div>
+
+  <!-- جاوا اسکریپت ساده برای افکت تعویض تب‌ها -->
+  <script>
+    const tabs = document.querySelectorAll('.tab-btn');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+      });
+    });
+  </script>
+
+</body>
+</html>
