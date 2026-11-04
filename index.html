@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>پلتفرم پخش و دانلود سریال‌ها</title>
+  <title>پلتفرم پخش و دانلود سریال‌ها - استایل گرگی</title>
   
   <!-- فونت فارسی وزیرمتن -->
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
@@ -14,7 +14,7 @@
        ========================================== */
     :root {
       --bg-dark: #090b0e;
-      --card-bg: rgba(18, 22, 28, 0.75);
+      --card-bg: rgba(18, 22, 28, 0.85);
       --wolf-silver: #d1d5db;
       --crimson-red: #dc2626;
       --crimson-glow: rgba(220, 38, 38, 0.35);
@@ -36,13 +36,13 @@
       min-height: 100vh;
       padding: 20px 15px;
       background-image: 
-        radial-gradient(circle at 50% 0%, rgba(220, 38, 38, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 50% 0%, rgba(220, 38, 38, 0.12) 0%, transparent 40%),
         radial-gradient(circle at 90% 90%, rgba(75, 85, 99, 0.08) 0%, transparent 50%);
     }
 
     .container {
       width: 100%;
-      max-width: 500px;
+      max-width: 480px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
@@ -92,7 +92,7 @@
       color: var(--text-sub);
     }
 
-    /* دکمه بازگشت به لیست سریال‌ها */
+    /* دکمه بازگشت */
     .back-btn {
       display: none;
       align-items: center;
@@ -105,7 +105,7 @@
       cursor: pointer;
       font-size: 0.85rem;
       width: fit-content;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
       transition: all 0.3s ease;
     }
 
@@ -115,49 +115,67 @@
     }
 
     /* ==========================================
-       ۳. نمای اول: لیست سریال‌ها
+       ۳. نمای اول: لیست سریال‌ها (عکس بزرگ در وسط، اسم و قسمت در زیر)
        ========================================== */
     .series-grid {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 24px;
     }
 
     .series-card {
       background: var(--card-bg);
       border: 1px solid var(--glass-border);
       backdrop-filter: blur(12px);
-      border-radius: 16px;
+      border-radius: 20px;
       overflow: hidden;
       display: flex;
+      flex-direction: column;
       cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
     }
 
     .series-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(220, 38, 38, 0.5);
+      transform: translateY(-5px);
+      border-color: rgba(220, 38, 38, 0.6);
     }
 
+    /* عکس بزرگ در وسط */
     .series-img {
-      width: 110px;
-      height: 140px;
+      width: 100%;
+      height: 220px;
       object-fit: cover;
       background-color: #1f2937;
     }
 
+    /* اطلاعات زیر عکس */
     .series-info {
-      padding: 14px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       gap: 8px;
-      flex: 1;
+    }
+
+    .series-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .series-title {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       font-weight: 700;
+    }
+
+    .badge-count {
+      background: rgba(220, 38, 38, 0.2);
+      color: var(--crimson-red);
+      border: 1px solid rgba(220, 38, 38, 0.3);
+      padding: 3px 10px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
     }
 
     .series-meta {
@@ -165,20 +183,8 @@
       color: var(--text-sub);
     }
 
-    .badge-count {
-      display: inline-block;
-      background: rgba(220, 38, 38, 0.2);
-      color: var(--crimson-red);
-      border: 1px solid rgba(220, 38, 38, 0.3);
-      padding: 3px 8px;
-      border-radius: 8px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      width: fit-content;
-    }
-
     /* ==========================================
-       ۴. نمای دوم: لیست قسمت‌های سریال
+       ۴. نمای دوم: لیست قسمت‌های سریال (همان ساختار تایید شده)
        ========================================== */
     .episodes-view {
       display: none;
@@ -271,7 +277,7 @@
     }
 
     /* ==========================================
-       ۵. مودال کیفیت‌ها (هنگام کلیک روی دانلود)
+       ۵. مودال کیفیت‌ها
        ========================================== */
     .modal-overlay {
       position: fixed;
@@ -377,55 +383,61 @@
         </svg>
       </div>
       <h1 class="title" id="page-title">آرشیو سریال‌ها</h1>
-      <p class="subtitle">بهترین سریال‌ها با بالاترین کیفیت</p>
+      <p class="subtitle">پخش و دانلود اختصاصی با استایل سینمایی</p>
     </header>
 
-    <!-- دکمه بازگشت (در نمای قسمت‌ها ظاهر می‌شود) -->
+    <!-- دکمه بازگشت -->
     <button class="back-btn" id="back-btn" onclick="showSeriesList()">
       ← بازگشت به لیست سریال‌ها
     </button>
 
-    <!-- ۱. لیست سریال‌ها -->
+    <!-- ۱. لیست سریال‌ها (عکس بزرگ در وسط، اسم و قسمت‌ها در زیر) -->
     <main class="series-grid" id="series-view">
       
       <!-- سریال ۱ -->
       <div class="series-card" onclick="openSeries('سریال سرخ و سیاه', 12)">
-        <img class="series-img" src="https://via.placeholder.com/150x200/1e293b/94a3b8?text=Poster+1" alt="عکس سریال">
+        <img class="series-img" src="https://via.placeholder.com/500x280/1e293b/94a3b8?text=Wolf+Series+Banner+1" alt="عکس سریال">
         <div class="series-info">
-          <h2 class="series-title">سریال سرخ و سیاه</h2>
+          <div class="series-title-row">
+            <h2 class="series-title">سریال سرخ و سیاه</h2>
+            <span class="badge-count">۱۲ قسمت</span>
+          </div>
           <span class="series-meta">ژانر: درام، هیجان‌انگیز | سال انتشار: ۱۴۰۲</span>
-          <span class="badge-count">۱۲ قسمت کامل</span>
         </div>
       </div>
 
       <!-- سریال ۲ -->
       <div class="series-card" onclick="openSeries('سریال سایه گرگ', 8)">
-        <img class="series-img" src="https://via.placeholder.com/150x200/1e293b/94a3b8?text=Poster+2" alt="عکس سریال">
+        <img class="series-img" src="https://via.placeholder.com/500x280/1e293b/94a3b8?text=Wolf+Series+Banner+2" alt="عکس سریال">
         <div class="series-info">
-          <h2 class="series-title">سریال سایه گرگ</h2>
+          <div class="series-title-row">
+            <h2 class="series-title">سریال سایه گرگ</h2>
+            <span class="badge-count">۸ قسمت</span>
+          </div>
           <span class="series-meta">ژانر: اکشن، رازآلود | سال انتشار: ۱۴۰۳</span>
-          <span class="badge-count">۸ قسمت کامل</span>
         </div>
       </div>
 
       <!-- سریال ۳ -->
       <div class="series-card" onclick="openSeries('سریال شب‌های تاریک', 10)">
-        <img class="series-img" src="https://via.placeholder.com/150x200/1e293b/94a3b8?text=Poster+3" alt="عکس سریال">
+        <img class="series-img" src="https://via.placeholder.com/500x280/1e293b/94a3b8?text=Wolf+Series+Banner+3" alt="عکس سریال">
         <div class="series-info">
-          <h2 class="series-title">سریال شب‌های تاریک</h2>
+          <div class="series-title-row">
+            <h2 class="series-title">سریال شب‌های تاریک</h2>
+            <span class="badge-count">۱۰ قسمت</span>
+          </div>
           <span class="series-meta">ژانر: جنایی، معمایی | سال انتشار: ۱۴۰۱</span>
-          <span class="badge-count">۱۰ قسمت کامل</span>
         </div>
       </div>
 
     </main>
 
-    <!-- ۲. لیست قسمت‌های سریال (به صورت دینامیک ساخته می‌شود) -->
+    <!-- ۲. لیست قسمت‌های سریال (ساختار لیستی مورد تایید) -->
     <main class="episodes-view" id="episodes-view"></main>
 
   </div>
 
-  <!-- ۳. پنجره مودال کیفیت‌ها -->
+  <!-- ۳. مودال کیفیت‌ها -->
   <div class="modal-overlay" id="quality-modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -433,7 +445,6 @@
         <button class="close-modal" onclick="closeModal()">✕</button>
       </div>
 
-      <!-- لیست کیفیت‌ها با حجم -->
       <a href="#" class="quality-option">
         <div class="quality-info">
           <span class="q-title">کیفیت 1080p Full HD</span>
@@ -460,7 +471,7 @@
     </div>
   </div>
 
-  <!-- جاوا اسکریپت کنترل نماها -->
+  <!-- جاوا اسکریپت -->
   <script>
     const seriesView = document.getElementById('series-view');
     const episodesView = document.getElementById('episodes-view');
@@ -469,14 +480,12 @@
     const qualityModal = document.getElementById('quality-modal');
     const modalEpisodeTitle = document.getElementById('modal-episode-title');
 
-    // باز کردن لیست قسمت‌های سریال
     function openSeries(title, totalEpisodes) {
       seriesView.style.display = 'none';
       episodesView.style.display = 'flex';
       backBtn.style.display = 'flex';
       pageTitle.innerText = title;
 
-      // ساخت رندوم لیست قسمت‌ها
       let html = '';
       for (let i = 1; i <= totalEpisodes; i++) {
         html += `
@@ -502,7 +511,6 @@
       episodesView.innerHTML = html;
     }
 
-    // بازگشت به لیست سریال‌ها
     function showSeriesList() {
       episodesView.style.display = 'none';
       seriesView.style.display = 'flex';
@@ -510,18 +518,15 @@
       pageTitle.innerText = 'آرشیو سریال‌ها';
     }
 
-    // باز کردن کشوی کیفیت دانلود
     function openDownloadModal(episodeName) {
       modalEpisodeTitle.innerText = `دانلود ${episodeName}`;
       qualityModal.classList.add('active');
     }
 
-    // بستن مودال
     function closeModal() {
       qualityModal.classList.remove('active');
     }
 
-    // بستن مودال با کلیک روی پس‌زمینه
     qualityModal.addEventListener('click', (e) => {
       if (e.target === qualityModal) closeModal();
     });
