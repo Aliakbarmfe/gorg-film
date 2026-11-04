@@ -266,9 +266,9 @@
       content: '';
       width: 7px;
       height: 7px;
-      background: var(--crimson-red);
+      background: #10b981; /* تغییر رنگ دایره به سبز */
       border-radius: 50%;
-      box-shadow: 0 0 8px var(--crimson-red);
+      box-shadow: 0 0 8px #10b981; /* تغییر رنگ Glow دایره به سبز */
     }
 
     .series-info {
@@ -355,7 +355,7 @@
 
     .episode-number {
       font-size: 0.72rem;
-      color: var(--crimson-red);
+      color: #10b981; /* تغییر رنگ متن شماره قسمت به سبز هماهنگ */
       font-weight: 800;
       letter-spacing: 0.5px;
       text-transform: uppercase;
@@ -534,6 +534,17 @@
       padding: 30px 20px;
       font-size: 0.9rem;
     }
+
+    /* ---------------- Site Footer ---------------- */
+    .site-footer {
+      text-align: center;
+      margin-top: 30px;
+      padding: 15px 0;
+      font-size: 0.82rem;
+      color: var(--text-sub);
+      border-top: 1px solid var(--glass-border);
+      letter-spacing: -0.2px;
+    }
   </style>
 </head>
 <body>
@@ -567,6 +578,11 @@
     </main>
 
     <main class="episodes-view" id="episodes-view"></main>
+
+    <!-- فوتر سایت با متن درخواستی -->
+    <footer class="site-footer">
+      اختصاصی، جمعه ها ساعت 8 صبح
+    </footer>
 
   </div>
 
@@ -741,3 +757,4 @@
 
 </body>
 </html>
+ 
