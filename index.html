@@ -3,30 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>سریال سرخ و سیاه | پخش و دانلود اختصاصی</title>
+  <title>پلتفرم پخش و دانلود سریال‌ها</title>
   
-  <!-- وب‌فونت وزیرمتن برای فونت مدرن و شیک فارسی -->
+  <!-- فونت فارسی وزیرمتن -->
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
 
   <style>
     /* ==========================================
-       ۱. متغیرهای رنگی (پالت گرگی و سینمایی)
+       ۱. متغیرها و پالت رنگی گرگی / تیره
        ========================================== */
     :root {
-      --bg-dark: #0b0d10;           /* مشکی/زغالی تیره عمیق */
-      --card-bg: rgba(22, 27, 34, 0.65); /* شیشه‌ای نیمه‌شفاف */
-      --wolf-silver: #d1d5db;       /* نقره‌ای پوست گرگ */
-      --wolf-gray: #4b5563;         /* خاکستری تیره */
-      --crimson-red: #dc2626;       /* سرخ خونین / تاکیدی */
-      --crimson-glow: rgba(220, 38, 38, 0.35); /* هاله سرخ */
+      --bg-dark: #090b0e;
+      --card-bg: rgba(18, 22, 28, 0.75);
+      --wolf-silver: #d1d5db;
+      --crimson-red: #dc2626;
+      --crimson-glow: rgba(220, 38, 38, 0.35);
       --glass-border: rgba(255, 255, 255, 0.08);
       --text-main: #f3f4f6;
       --text-sub: #9ca3af;
     }
 
-    /* ==========================================
-       ۲. تنظیمات پایه و پس‌زمینه
-       ========================================== */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -38,432 +34,496 @@
       background-color: var(--bg-dark);
       color: var(--text-main);
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
       padding: 20px 15px;
-      overflow-x: hidden;
-      /* ساخت افکت مه محو شبانه با گرادینت */
       background-image: 
-        radial-gradient(circle at 50% 10%, rgba(220, 38, 38, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(75, 85, 99, 0.08) 0%, transparent 50%);
+        radial-gradient(circle at 50% 0%, rgba(220, 38, 38, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(75, 85, 99, 0.08) 0%, transparent 50%);
     }
 
-    /* کانتینر اصلی موبایل / وب */
-    .app-container {
+    .container {
       width: 100%;
-      max-width: 480px;
+      max-width: 500px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 20px;
     }
 
     /* ==========================================
-       ۳. هدر و نماد گرگ (Wolf Branding)
+       ۲. هدر با نماد گرگ
        ========================================== */
     .header {
       text-align: center;
-      padding: 20px 0 10px;
+      padding: 10px 0;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
-    /* آیکون گرگ مدرن (SVG هندسی) */
-    .wolf-icon-wrapper {
-      width: 70px;
-      height: 70px;
+    .wolf-brand {
+      width: 60px;
+      height: 60px;
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--glass-border);
       border-radius: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 12px;
-      box-shadow: 0 0 25px var(--crimson-glow);
-      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .wolf-icon-wrapper:hover {
-      transform: scale(1.08) rotate(3deg);
-      border-color: var(--crimson-red);
-      box-shadow: 0 0 35px rgba(220, 38, 38, 0.6);
+      margin-bottom: 10px;
+      box-shadow: 0 0 20px var(--crimson-glow);
     }
 
     .wolf-svg {
-      width: 42px;
-      height: 42px;
+      width: 36px;
+      height: 36px;
       fill: var(--wolf-silver);
-      transition: fill 0.4s ease;
-    }
-
-    .wolf-icon-wrapper:hover .wolf-svg {
-      fill: var(--crimson-red);
     }
 
     .title {
-      font-size: 1.75rem;
+      font-size: 1.6rem;
       font-weight: 900;
-      letter-spacing: -0.5px;
-      background: linear-gradient(135deg, #ffffff 30%, var(--wolf-silver) 70%, var(--crimson-red) 100%);
+      background: linear-gradient(135deg, #ffffff, var(--wolf-silver), var(--crimson-red));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 4px;
     }
 
     .subtitle {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: var(--text-sub);
-      font-weight: 300;
+    }
+
+    /* دکمه بازگشت به لیست سریال‌ها */
+    .back-btn {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      color: var(--wolf-silver);
+      padding: 8px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      width: fit-content;
+      margin-bottom: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: var(--crimson-red);
+      color: #fff;
     }
 
     /* ==========================================
-       ۴. قاب ویدیو پیش‌نمایش (با افکت اسلوموشن)
+       ۳. نمای اول: لیست سریال‌ها
        ========================================== */
-    .hero-video-card {
-      position: relative;
-      border-radius: 20px;
-      overflow: hidden;
+    .series-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .series-card {
       background: var(--card-bg);
       border: 1px solid var(--glass-border);
       backdrop-filter: blur(12px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-    }
-
-    .video-wrapper {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16/9;
-      background: #000;
+      border-radius: 16px;
       overflow: hidden;
+      display: flex;
+      cursor: pointer;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
     }
 
-    .video-wrapper video {
-      width: 100%;
-      height: 100%;
+    .series-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(220, 38, 38, 0.5);
+    }
+
+    .series-img {
+      width: 110px;
+      height: 140px;
       object-fit: cover;
-      opacity: 0.85;
-      /* transition برای افکت اسلوموشن روی ویدیو هنگام هاور */
-      transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1), filter 0.8s ease;
+      background-color: #1f2937;
     }
 
-    .hero-video-card:hover .video-wrapper video {
-      transform: scale(1.06);
-      opacity: 1;
-    }
-
-    .badge-live {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: rgba(220, 38, 38, 0.85);
-      backdrop-filter: blur(4px);
-      color: #fff;
-      font-size: 0.75rem;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-weight: 700;
+    .series-info {
+      padding: 14px;
       display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      flex: 1;
     }
 
-    .badge-live::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      background: #fff;
-      border-radius: 50%;
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.3; transform: scale(0.8); }
-      100% { opacity: 1; transform: scale(1); }
-    }
-
-    .video-info {
-      padding: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .episode-title {
+    .series-title {
       font-size: 1.1rem;
       font-weight: 700;
     }
 
-    /* ==========================================
-       ۵. سیستم تب‌بندی قسمت‌ها (Tabs)
-       ========================================== */
-    .episodes-nav {
-      display: flex;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.03);
-      padding: 4px;
-      border-radius: 14px;
-      border: 1px solid var(--glass-border);
-    }
-
-    .tab-btn {
-      flex: 1;
-      background: transparent;
-      border: none;
+    .series-meta {
+      font-size: 0.8rem;
       color: var(--text-sub);
-      padding: 10px 0;
-      border-radius: 10px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      /* انیمیشن نرم اسلوموشن در سوئیچ تب‌ها */
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .tab-btn.active {
-      background: var(--crimson-red);
-      color: #fff;
-      box-shadow: 0 4px 15px var(--crimson-glow);
+    .badge-count {
+      display: inline-block;
+      background: rgba(220, 38, 38, 0.2);
+      color: var(--crimson-red);
+      border: 1px solid rgba(220, 38, 38, 0.3);
+      padding: 3px 8px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      width: fit-content;
     }
 
     /* ==========================================
-       ۶. لیست کیفیت‌ها با افکت Glassmorphism & Hover
+       ۴. نمای دوم: لیست قسمت‌های سریال
        ========================================== */
-    .download-section {
+    .episodes-view {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .episode-card {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
 
-    .download-card {
-      background: var(--card-bg);
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-radius: 16px;
-      padding: 14px 18px;
+    .episode-top {
       display: flex;
-      justify-content: space-between;
+      gap: 12px;
       align-items: center;
-      text-decoration: none;
-      color: var(--text-main);
-      /* انیمیشن اسلوموشن برای افکت هاور */
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
-      overflow: hidden;
     }
 
-    /* خط نئونی نقره‌ای/سرخ هنگام حرکت ماوس */
-    .download-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 4px;
-      height: 100%;
-      background: var(--wolf-silver);
-      transition: background 0.4s ease, width 0.4s ease;
+    .episode-img {
+      width: 90px;
+      height: 60px;
+      border-radius: 10px;
+      object-fit: cover;
+      background-color: #1f2937;
     }
 
-    .download-card:hover {
-      transform: translateY(-3px) scale(1.01);
-      border-color: rgba(220, 38, 38, 0.4);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-    }
-
-    .download-card:hover::before {
-      background: var(--crimson-red);
-      width: 6px;
-    }
-
-    .quality-details {
+    .episode-details {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 4px;
     }
 
-    .quality-name {
+    .episode-number {
+      font-size: 0.75rem;
+      color: var(--crimson-red);
+      font-weight: 700;
+    }
+
+    .episode-name {
       font-size: 0.95rem;
       font-weight: 700;
+    }
+
+    .episode-actions {
       display: flex;
-      align-items: center;
       gap: 8px;
     }
 
-    .quality-tag {
-      font-size: 0.65rem;
-      background: rgba(255, 255, 255, 0.08);
-      padding: 2px 6px;
-      border-radius: 6px;
-      color: var(--wolf-silver);
-    }
-
-    .quality-size {
-      font-size: 0.75rem;
-      color: var(--text-sub);
-    }
-
-    .btn-action {
+    .btn {
+      flex: 1;
+      padding: 8px 0;
+      border-radius: 10px;
+      border: none;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
       display: flex;
+      justify-content: center;
       align-items: center;
       gap: 6px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--wolf-silver);
-      background: rgba(255, 255, 255, 0.05);
-      padding: 8px 14px;
-      border-radius: 10px;
-      transition: all 0.4s ease;
+      transition: all 0.3s ease;
+      text-decoration: none;
     }
 
-    .download-card:hover .btn-action {
+    .btn-download {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--wolf-silver);
+      border: 1px solid var(--glass-border);
+    }
+
+    .btn-download:hover {
+      background: var(--wolf-silver);
+      color: #000;
+    }
+
+    .btn-play {
       background: var(--crimson-red);
       color: #fff;
       box-shadow: 0 4px 12px var(--crimson-glow);
     }
 
-    /* ==========================================
-       ۷. فوتر مینی‌مال
-       ========================================== */
-    .footer {
-      text-align: center;
-      padding: 15px 0;
-      font-size: 0.75rem;
-      color: var(--text-sub);
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    .btn-play:hover {
+      opacity: 0.9;
     }
 
-    .footer span {
-      color: var(--crimson-red);
+    /* ==========================================
+       ۵. مودال کیفیت‌ها (هنگام کلیک روی دانلود)
+       ========================================== */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      display: none;
+      justify-content: center;
+      align-items: flex-end;
+      z-index: 1000;
+      padding: 15px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #12161c;
+      border: 1px solid var(--glass-border);
+      border-radius: 20px 20px 20px 20px;
+      width: 100%;
+      max-width: 480px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--glass-border);
+      padding-bottom: 10px;
+    }
+
+    .modal-title {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .close-modal {
+      background: transparent;
+      border: none;
+      color: var(--text-sub);
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .quality-option {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+      transition: all 0.3s ease;
+    }
+
+    .quality-option:hover {
+      border-color: var(--crimson-red);
+      background: rgba(220, 38, 38, 0.1);
+    }
+
+    .quality-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .q-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .q-size {
+      font-size: 0.75rem;
+      color: var(--text-sub);
     }
   </style>
 </head>
 <body>
 
-  <div class="app-container">
+  <div class="container">
 
-    <!-- هدر با آیکون هندسی گرگ -->
+    <!-- هدر سایت -->
     <header class="header">
-      <div class="wolf-icon-wrapper">
-        <!-- SVG نماد سر گرگ مدرن -->
+      <div class="wolf-brand">
         <svg class="wolf-svg" viewBox="0 0 24 24">
           <path d="M12 2L4 9l2 9 6 3 6-3 2-9-8-7zm0 3.8l4.8 4.2-1.2 5.4-3.6 1.8-3.6-1.8-1.2-5.4L12 5.8z"/>
         </svg>
       </div>
-      <h1 class="title">سریال سرخ و سیاه</h1>
-      <p class="subtitle">پلتفرم اختصاصی پخش و دانلود با کیفیت بالا</p>
+      <h1 class="title" id="page-title">آرشیو سریال‌ها</h1>
+      <p class="subtitle">بهترین سریال‌ها با بالاترین کیفیت</p>
     </header>
 
-    <!-- ویدیو پیش‌نمایش تریلر -->
-    <div class="hero-video-card">
-      <div class="video-wrapper">
-        <span class="badge-live">قسمت جدید</span>
-        <!-- نمونه ویدیو با قابلیت پخش خودکار و بی‌صدا -->
-        <video autoplay loop muted playsinline poster="https://via.placeholder.com/600x337/161b22/d1d5db?text=Red+%26+Black+Series">
-          <source src="https://assets.mixkit.co/videos/preview/mixkit-dramatic-dark-smoke-and-lights-40893-large.mp4" type="video/mp4">
-        </video>
+    <!-- دکمه بازگشت (در نمای قسمت‌ها ظاهر می‌شود) -->
+    <button class="back-btn" id="back-btn" onclick="showSeriesList()">
+      ← بازگشت به لیست سریال‌ها
+    </button>
+
+    <!-- ۱. لیست سریال‌ها -->
+    <main class="series-grid" id="series-view">
+      
+      <!-- سریال ۱ -->
+      <div class="series-card" onclick="openSeries('سریال سرخ و سیاه', 12)">
+        <img class="series-img" src="https://via.placeholder.com/150x200/1e293b/94a3b8?text=Poster+1" alt="عکس سریال">
+        <div class="series-info">
+          <h2 class="series-title">سریال سرخ و سیاه</h2>
+          <span class="series-meta">ژانر: درام، هیجان‌انگیز | سال انتشار: ۱۴۰۲</span>
+          <span class="badge-count">۱۲ قسمت کامل</span>
+        </div>
       </div>
-      <div class="video-info">
-        <span class="episode-title">قسمت ۳ (فصل اول)</span>
-        <span style="font-size: 0.75rem; color: var(--text-sub);">مدت زمان: ۵۴ دقیقه</span>
+
+      <!-- سریال ۲ -->
+      <div class="series-card" onclick="openSeries('سریال سایه گرگ', 8)">
+        <img class="series-img" src="https://via.placeholder.com/150x200/1e293b/94a3b8?text=Poster+2" alt="عکس سریال">
+        <div class="series-info">
+          <h2 class="series-title">سریال سایه گرگ</h2>
+          <span class="series-meta">ژانر: اکشن، رازآلود | سال انتشار: ۱۴۰۳</span>
+          <span class="badge-count">۸ قسمت کامل</span>
+        </div>
       </div>
-    </div>
 
-    <!-- تب‌های انتخاب قسمت -->
-    <div class="episodes-nav">
-      <button class="tab-btn active">قسمت ۳</button>
-      <button class="tab-btn">قسمت ۲</button>
-      <button class="tab-btn">قسمت ۱</button>
-    </div>
-
-    <!-- لیست دکمه‌های دانلود مدرن شیشه‌ای -->
-    <main class="download-section">
-
-      <!-- کیفیت 1080p -->
-      <a href="#" class="download-card">
-        <div class="quality-details">
-          <div class="quality-name">
-            کیفیت Full HD 1080p
-            <span class="quality-tag">پیشنهادی</span>
-          </div>
-          <span class="quality-size">حجم: ۱.۲ گیگابایت | فرمت: MKV</span>
+      <!-- سریال ۳ -->
+      <div class="series-card" onclick="openSeries('سریال شب‌های تاریک', 10)">
+        <img class="series-img" src="https://via.placeholder.com/150x200/1e293b/94a3b8?text=Poster+3" alt="عکس سریال">
+        <div class="series-info">
+          <h2 class="series-title">سریال شب‌های تاریک</h2>
+          <span class="series-meta">ژانر: جنایی، معمایی | سال انتشار: ۱۴۰۱</span>
+          <span class="badge-count">۱۰ قسمت کامل</span>
         </div>
-        <div class="btn-action">
-          <span>دانلود</span>
-          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-          </svg>
-        </div>
-      </a>
-
-      <!-- کیفیت 720p -->
-      <a href="#" class="download-card">
-        <div class="quality-details">
-          <div class="quality-name">
-            کیفیت HD 720p
-          </div>
-          <span class="quality-size">حجم: ۶۵۰ مگابایت | فرمت: MP4</span>
-        </div>
-        <div class="btn-action">
-          <span>دانلود</span>
-          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-          </svg>
-        </div>
-      </a>
-
-      <!-- کیفیت 480p -->
-      <a href="#" class="download-card">
-        <div class="quality-details">
-          <div class="quality-name">
-            کیفیت Standard 480p
-          </div>
-          <span class="quality-size">حجم: ۳۵۰ مگابایت | فرمت: MP4</span>
-        </div>
-        <div class="btn-action">
-          <span>دانلود</span>
-          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-          </svg>
-        </div>
-      </a>
-
-      <!-- دکمه پخش آنلاین -->
-      <a href="#" class="download-card" style="border-color: rgba(220, 38, 38, 0.3);">
-        <div class="quality-details">
-          <div class="quality-name" style="color: #ef4444;">
-            تماشای آنلاین تمام کیفیت‌ها
-          </div>
-          <span class="quality-size">بدون نیاز به دانلود (پخش فوری)</span>
-        </div>
-        <div class="btn-action" style="background: var(--crimson-red); color: #fff;">
-          <span>پخش</span>
-          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M8 5v14l11-7z"/>
-          </svg>
-        </div>
-      </a>
+      </div>
 
     </main>
 
-    <!-- فوتر -->
-    <footer class="footer">
-      طراحی شده با الهام از نماد <span>گرگ</span> و استایل سینمایی مدرن
-    </footer>
+    <!-- ۲. لیست قسمت‌های سریال (به صورت دینامیک ساخته می‌شود) -->
+    <main class="episodes-view" id="episodes-view"></main>
 
   </div>
 
-  <!-- جاوا اسکریپت ساده برای افکت تعویض تب‌ها -->
+  <!-- ۳. پنجره مودال کیفیت‌ها -->
+  <div class="modal-overlay" id="quality-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="modal-title" id="modal-episode-title">انتخاب کیفیت دانلود</span>
+        <button class="close-modal" onclick="closeModal()">✕</button>
+      </div>
+
+      <!-- لیست کیفیت‌ها با حجم -->
+      <a href="#" class="quality-option">
+        <div class="quality-info">
+          <span class="q-title">کیفیت 1080p Full HD</span>
+          <span class="q-size">فرمت: MKV</span>
+        </div>
+        <span style="font-size: 0.85rem; font-weight:700; color:var(--crimson-red);">1.2 GB</span>
+      </a>
+
+      <a href="#" class="quality-option">
+        <div class="quality-info">
+          <span class="q-title">کیفیت 720p HD</span>
+          <span class="q-size">فرمت: MP4</span>
+        </div>
+        <span style="font-size: 0.85rem; font-weight:700; color:var(--wolf-silver);">650 MB</span>
+      </a>
+
+      <a href="#" class="quality-option">
+        <div class="quality-info">
+          <span class="q-title">کیفیت 480p SD</span>
+          <span class="q-size">فرمت: MP4</span>
+        </div>
+        <span style="font-size: 0.85rem; font-weight:700; color:var(--text-sub);">350 MB</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- جاوا اسکریپت کنترل نماها -->
   <script>
-    const tabs = document.querySelectorAll('.tab-btn');
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-      });
+    const seriesView = document.getElementById('series-view');
+    const episodesView = document.getElementById('episodes-view');
+    const backBtn = document.getElementById('back-btn');
+    const pageTitle = document.getElementById('page-title');
+    const qualityModal = document.getElementById('quality-modal');
+    const modalEpisodeTitle = document.getElementById('modal-episode-title');
+
+    // باز کردن لیست قسمت‌های سریال
+    function openSeries(title, totalEpisodes) {
+      seriesView.style.display = 'none';
+      episodesView.style.display = 'flex';
+      backBtn.style.display = 'flex';
+      pageTitle.innerText = title;
+
+      // ساخت رندوم لیست قسمت‌ها
+      let html = '';
+      for (let i = 1; i <= totalEpisodes; i++) {
+        html += `
+          <div class="episode-card">
+            <div class="episode-top">
+              <img class="episode-img" src="https://via.placeholder.com/120x80/1f2937/9ca3af?text=Ep+${i}" alt="عکس قسمت">
+              <div class="episode-details">
+                <span class="episode-number">قسمت ${i}</span>
+                <h3 class="episode-name">عنوان اتفاقات قسمت ${i}</h3>
+              </div>
+            </div>
+            <div class="episode-actions">
+              <button class="btn btn-download" onclick="openDownloadModal('قسمت ${i} - ${title}')">
+                📥 دانلود کیفیت‌ها
+              </button>
+              <a href="#" class="btn btn-play">
+                ▶ تماشای آنلاین
+              </a>
+            </div>
+          </div>
+        `;
+      }
+      episodesView.innerHTML = html;
+    }
+
+    // بازگشت به لیست سریال‌ها
+    function showSeriesList() {
+      episodesView.style.display = 'none';
+      seriesView.style.display = 'flex';
+      backBtn.style.display = 'none';
+      pageTitle.innerText = 'آرشیو سریال‌ها';
+    }
+
+    // باز کردن کشوی کیفیت دانلود
+    function openDownloadModal(episodeName) {
+      modalEpisodeTitle.innerText = `دانلود ${episodeName}`;
+      qualityModal.classList.add('active');
+    }
+
+    // بستن مودال
+    function closeModal() {
+      qualityModal.classList.remove('active');
+    }
+
+    // بستن مودال با کلیک روی پس‌زمینه
+    qualityModal.addEventListener('click', (e) => {
+      if (e.target === qualityModal) closeModal();
     });
   </script>
 
