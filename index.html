@@ -269,6 +269,22 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     }
 
+    /* انیمیشن تپش قلب برای دایره سبز */
+    @keyframes heartBeat {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      }
+      50% {
+        transform: scale(1.5);
+        box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+      }
+    }
+
     .badge-count::before {
       content: '';
       width: 7px;
@@ -276,6 +292,7 @@
       background: #10b981;
       border-radius: 50%;
       box-shadow: 0 0 8px #10b981;
+      animation: heartBeat 1.2s infinite ease-in-out;
     }
 
     .series-info {
@@ -725,7 +742,7 @@
         sizes = JSON.parse(decodeURIComponent(sizesJsonStr));
       } catch(e) {}
 
-      let qHtml = {};
+      let qHtml = '';
       const qualityLabels = {
         "480": { title: "کیفیت 480p SD", format: "فرمت: MP4" },
         "720": { title: "کیفیت 720p HD", format: "فرمت: MP4" },
@@ -766,4 +783,3 @@
 
 </body>
 </html>
- 
