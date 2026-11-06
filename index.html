@@ -341,6 +341,7 @@
       gap: 12px;
       box-shadow: 0 8px 25px rgba(0,0,0,0.4);
       transition: border-color 0.3s ease;
+      position: relative;
     }
 
     .episode-card:hover {
@@ -351,6 +352,7 @@
       display: flex;
       gap: 12px;
       align-items: center;
+      position: relative;
     }
 
     .episode-img-wrapper {
@@ -375,6 +377,7 @@
       flex-direction: column;
       gap: 4px;
       overflow: hidden;
+      flex: 1;
     }
 
     .episode-number {
@@ -397,6 +400,35 @@
     .episode-actions {
       display: flex;
       gap: 10px;
+    }
+
+    /* انیمیشن تپش قلب و بزرگ/کوچک شدن برای بج جدیدترین قسمت */
+    @keyframes heartBeatBadge {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(255, 30, 67, 0.4);
+      }
+      50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 18px rgba(255, 30, 67, 0.8);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(255, 30, 67, 0.4);
+      }
+    }
+
+    .new-episode-badge {
+      background: linear-gradient(135deg, #ff1e43, #c80d2e);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 20px;
+      animation: heartBeatBadge 1.4s infinite ease-in-out;
+      box-shadow: 0 4px 15px var(--crimson-glow);
+      flex-shrink: 0;
+      margin-right: auto;
     }
 
     /* ---------------- Buttons ---------------- */
@@ -692,9 +724,14 @@
       if (serial.episodes) {
         const sortedEpisodes = Object.entries(serial.episodes).reverse();
 
-        for (const [epId, episode] of sortedEpisodes) {
+        // اولین آیتم پس از reverse، جدیدترین قسمت (بالاترین قسمت) است
+        sortedEpisodes.forEach(([epId, episode], index) => {
           const sizesEncoded = encodeURIComponent(JSON.stringify(episode.sizes || {}));
           const episodeLink = episode.link || '#';
+          
+          // فقط برای اولین قسمت (بالاترین و جدیدترین) بج را نمایش بده
+          const isLatest = (index === 0);
+          const newBadgeHtml = isLatest ? `<span class="new-episode-badge">قسمت جدید</span>` : '';
 
           html += `
             <div class="episode-card">
@@ -706,6 +743,7 @@
                   <span class="episode-number">قسمت ${episode.number}</span>
                   <h3 class="episode-name">${episode.name}</h3>
                 </div>
+                ${newBadgeHtml}
               </div>
               <div class="episode-actions">
                 <button class="btn btn-download" onclick='openDownloadModal("${episode.name}", "${sizesEncoded}", "${episodeLink}")'>
@@ -719,7 +757,7 @@
               </div>
             </div>
           `;
-        }
+        });
       } else {
         html = `<div class="loading-text">قسمتی برای این سریال ثبت نشده است.</div>`;
       }
