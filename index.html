@@ -270,7 +270,6 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     }
 
-    /* انیمیشن تپش قلب برای دایره سبز */
     @keyframes heartBeat {
       0% {
         transform: scale(1);
@@ -403,7 +402,6 @@
       gap: 10px;
     }
 
-    /* انیمیشن تپش قلب و بزرگ/کوچک شدن برای بج جدیدترین قسمت */
     @keyframes heartBeatBadge {
       0% {
         transform: scale(1);
@@ -634,6 +632,12 @@
       <div class="loading-text">در حال بارگذاری سریال‌ها...</div>
     </main>
 
+    <!-- جایگذاری تگ نیتیو بنر ادسترا در اینجا -->
+    <div style="margin: 15px 0; width: 100%; text-align: center;">
+      <script async="async" data-cfasync="false" src="https://bancadeltempoidea.org/21/82b829544915d509fdb20fae9e6b485b"></script>
+      <div id="container-82b829544915d509fdb20fae9e6b485b"></div>
+    </div>
+
     <main class="episodes-view" id="episodes-view"></main>
 
     <!-- فوتر سایت با متن درخواستی -->
@@ -725,12 +729,10 @@
       if (serial.episodes) {
         const sortedEpisodes = Object.entries(serial.episodes).reverse();
 
-        // اولین آیتم پس از reverse، جدیدترین قسمت (بالاترین قسمت) است
         sortedEpisodes.forEach(([epId, episode], index) => {
           const sizesEncoded = encodeURIComponent(JSON.stringify(episode.sizes || {}));
           const episodeLink = episode.link || '#';
           
-          // فقط برای اولین قسمت (بالاترین و جدیدترین) بج را نمایش بده
           const isLatest = (index === 0);
           const newBadgeHtml = isLatest ? `<span class="new-episode-badge">قسمت جدید</span>` : '';
 
@@ -822,3 +824,4 @@
 
 </body>
 </html>
+ 
