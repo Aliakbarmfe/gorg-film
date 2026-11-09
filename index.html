@@ -270,7 +270,6 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     }
 
-    /* انیمیشن تپش قلب برای دایره سبز */
     @keyframes heartBeat {
       0% {
         transform: scale(1);
@@ -403,7 +402,6 @@
       gap: 10px;
     }
 
-    /* انیمیشن تپش قلب و بزرگ/کوچک شدن برای بج جدیدترین قسمت */
     @keyframes heartBeatBadge {
       0% {
         transform: scale(1);
@@ -603,6 +601,9 @@
       letter-spacing: -0.2px;
     }
   </style>
+
+  <!-- کد پاپ‌آندر جدید اد استرا (دقیقاً قبل از بسته شدن head) -->
+  <script data-cfasync="false" src="https://aarems.org/1/7c7fe7f58e48663b052e9592179b854f"></script>
 </head>
 <body>
 
@@ -725,12 +726,10 @@
       if (serial.episodes) {
         const sortedEpisodes = Object.entries(serial.episodes).reverse();
 
-        // اولین آیتم پس از reverse، جدیدترین قسمت (بالاترین قسمت) است
         sortedEpisodes.forEach(([epId, episode], index) => {
           const sizesEncoded = encodeURIComponent(JSON.stringify(episode.sizes || {}));
           const episodeLink = episode.link || '#';
           
-          // فقط برای اولین قسمت (بالاترین و جدیدترین) بج را نمایش بده
           const isLatest = (index === 0);
           const newBadgeHtml = isLatest ? `<span class="new-episode-badge">قسمت جدید</span>` : '';
 
