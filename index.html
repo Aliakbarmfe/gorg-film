@@ -632,12 +632,6 @@
       <div class="loading-text">در حال بارگذاری سریال‌ها...</div>
     </main>
 
-    <!-- جایگذاری تگ نیتیو بنر ادسترا در اینجا -->
-    <div style="margin: 15px 0; width: 100%; text-align: center;">
-      <script async="async" data-cfasync="false" src="https://bancadeltempoidea.org/21/82b829544915d509fdb20fae9e6b485b"></script>
-      <div id="container-82b829544915d509fdb20fae9e6b485b"></div>
-    </div>
-
     <main class="episodes-view" id="episodes-view"></main>
 
     <!-- فوتر سایت با متن درخواستی -->
@@ -761,6 +755,15 @@
             </div>
           `;
         });
+
+        // افزودن نیتیو بنر ادسترا دقیقاً به انتهای لیست قسمت‌ها
+        html += `
+          <div style="margin: 20px 0; width: 100%; text-align: center;">
+            <script async="async" data-cfasync="false" src="https://bancadeltempoidea.org/21/82b829544915d509fdb20fae9e6b485b"><\/script>
+            <div id="container-82b829544915d509fdb20fae9e6b485b"></div>
+          </div>
+        `;
+
       } else {
         html = `<div class="loading-text">قسمتی برای این سریال ثبت نشده است.</div>`;
       }
@@ -783,7 +786,7 @@
         sizes = JSON.parse(decodeURIComponent(sizesJsonStr));
       } catch(e) {}
 
-      let qHtml = '';
+      let qHtml = {};
       const qualityLabels = {
         "480": { title: "کیفیت 480p SD", format: "فرمت: MP4" },
         "720": { title: "کیفیت 720p HD", format: "فرمت: MP4" },
@@ -808,7 +811,7 @@
       }
 
       modalQualitiesList.innerHTML = qHtml;
-      qualityModal.classList.add('active');
+      qualityModal.classList.et ? qualityModal.classList.add('active') : qualityModal.classList.add('active');
     }
 
     function closeModal() {
