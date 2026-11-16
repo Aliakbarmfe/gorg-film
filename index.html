@@ -600,8 +600,6 @@
       letter-spacing: -0.2px;
     }
   </style>
-
-  <!-- کد پاپ‌آندر جدید اد استرا (دقیقاً قبل از بسته شدن head) -->
 </head>
 <body>
 
@@ -618,7 +616,7 @@
           <path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4h-2l2 4h-3l-2-4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4zm-6 10l-4-2.5v5l4-2.5z"/>
         </svg>
       </div>
-      <h1 class="title" id="page-title">سریال سرخ و سیاه</h1>
+      <h1 class="title" id="page-title">سریال سرخ و سیاه قسمت اول 🎬</h1>
       <p class="subtitle">پخش آنلاین و دانلود بی‌وقفه کیفیت بالا</p>
     </header>
 
@@ -630,7 +628,7 @@
     </button>
 
     <main class="series-grid" id="series-view">
-      <div class="loading-text">در حال بارگذاری سریال‌ها...</div>
+      <!-- محتوا به صورت استاتیک بارگذاری می‌شود -->
     </main>
 
     <main class="episodes-view" id="episodes-view"></main>
@@ -656,7 +654,51 @@
   </div>
 
   <script>
-    let allSeriesData = {};
+    // اطلاعات ثابت سریال و قسمت‌ها بدون نیاز به فایربیس و API خارجی
+    const allSeriesData = {
+      "sorkh-o-siah": {
+        name: "سریال سرخ و سیاه قسمت اول 🎬",
+        image: "photos/safheaslii.jpg",
+        genres: ["درام", "عاشقانه", "تاریخی"],
+        episodes: {
+          "1": {
+            number: "1",
+            name: "ریشه در خاک، سر در آتش",
+            image: "photos/epi1.jpg",
+            link: "https://talasea.ir/login/signup?r=TsRuIDtL",
+            sizes: { "480": "380mb", "720": "700mb", "1080": "1.2GB" }
+          },
+          "2": {
+            number: "2",
+            name: "آنتری که لوطی اش مرده بود",
+            image: "photos/epi2.jpg",
+            link: "https://talasea.ir/login/signup?r=TsRuIDtL",
+            sizes: { "480": "380mb", "720": "700mb", "1080": "1.2GB" }
+          },
+          "3": {
+            number: "3",
+            name: "عشق، سال‌های وبا",
+            image: "photos/epi3.jpg",
+            link: "https://talasea.ir/login/signup?r=TsRuIDtL",
+            sizes: { "480": "380mb", "720": "700mb", "1080": "1.2GB" }
+          },
+          "4": {
+            number: "4",
+            name: "یک عشق بی هنگام",
+            image: "photos/epi4.jpg",
+            link: "https://talasea.ir/login/signup?r=TsRuIDtL",
+            sizes: { "480": "380mb", "720": "700mb", "1080": "1.2GB" }
+          },
+          "5": {
+            number: "5",
+            name: "زنی که مردش را گم کرد",
+            image: "photos/epi5.jpg",
+            link: "https://talasea.ir/login/signup?r=TsRuIDtL",
+            sizes: { "480": "380mb", "720": "700mb", "1080": "1.2GB" }
+          }
+        }
+      }
+    };
 
     const seriesView = document.getElementById('series-view');
     const episodesView = document.getElementById('episodes-view');
@@ -665,18 +707,6 @@
     const qualityModal = document.getElementById('quality-modal');
     const modalEpisodeTitle = document.getElementById('modal-episode-title');
     const modalQualitiesList = document.getElementById('modal-qualities-list');
-
-    // دریافت اطلاعات از API ورسل
-    async function fetchSeries() {
-      try {
-        const response = await fetch('/api/serials');
-        allSeriesData = await response.json();
-        renderSeriesList();
-      } catch (error) {
-        seriesView.innerHTML = `<div class="loading-text" style="color:var(--crimson-red);">خطا در دریافت اطلاعات از سرور</div>`;
-        console.error(error);
-      }
-    }
 
     function renderSeriesList() {
       if (!allSeriesData || Object.keys(allSeriesData).length === 0) {
@@ -687,14 +717,14 @@
       let html = '';
       let index = 0;
       for (const [serialId, serial] of Object.entries(allSeriesData)) {
-        const epCount = serial.episodes ? Object.keys(serial.episodes).length : (serial.epCount || 0);
-        const genresStr = serial.genres ? serial.genres.join(' • ') : 'سینمایی / سریال';
+        const epCount = serial.episodes ? Object.keys(serial.episodes).length : 0;
+        const genresStr = serial.genres ? serial.genres.join(' • ') : '';
         const delay = index * 0.08;
 
         html += `
           <div class="series-card" onclick="openSeries('${serialId}')" style="animation-delay: ${delay}s">
             <div class="series-img-wrapper">
-              <img class="series-img" src="${serial.image || 'https://via.placeholder.com/500x280/161b22/94a3b8?text=Series'}" alt="${serial.name}" loading="lazy">
+              <img class="series-img" src="${serial.image}" alt="${serial.name}" loading="lazy">
               <div class="series-img-overlay"></div>
               <span class="badge-count">${epCount} قسمت</span>
             </div>
@@ -735,7 +765,7 @@
             <div class="episode-card">
               <div class="episode-top">
                 <div class="episode-img-wrapper">
-                  <img class="episode-img" src="${episode.image || serial.image || 'https://via.placeholder.com/120x80/1f2937/9ca3af?text=Ep'}" alt="قسمت ${episode.number}" loading="lazy">
+                  <img class="episode-img" src="${episode.image}" alt="قسمت ${episode.number}" loading="lazy">
                 </div>
                 <div class="episode-details">
                   <span class="episode-number">قسمت ${episode.number}</span>
@@ -766,7 +796,7 @@
       episodesView.style.display = 'none';
       seriesView.style.display = 'flex';
       backBtn.style.display = 'none';
-      pageTitle.innerText = 'سریال سرخ و سیاه';
+      pageTitle.innerText = 'سریال سرخ و سیاه قسمت اول 🎬';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -814,8 +844,8 @@
       if (e.target === qualityModal) closeModal();
     });
 
-    fetchSeries();
+    // بارگذاری اولیه لیست سریال‌ها از داده‌های داخلی
+    renderSeriesList();
   </script>
-<script data-cfasync="false" src="https://bancadeltempoidea.org/14/fa246b2dbc11f66aade7de0c24c68b53"></script>
 </body>
 </html>
