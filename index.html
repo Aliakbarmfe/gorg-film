@@ -343,6 +343,7 @@
       background: #090b0f;
       border: 1px solid var(--glass-border);
       position: relative;
+      cursor: pointer;
     }
 
     .showcase-video {
@@ -353,8 +354,64 @@
       pointer-events: none;
     }
 
-    .showcase-video::-webkit-media-controls {
+    .showcase-video::-webkit-media-controls,
+    .showcase-video::-webkit-media-controls-enclosure,
+    .showcase-video::-webkit-media-controls-panel,
+    .showcase-video::-webkit-media-controls-timeline,
+    .showcase-video::-webkit-media-controls-current-time-display,
+    .showcase-video::-webkit-media-controls-time-remaining-display {
       display: none !important;
+    }
+
+    .video-play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 1.5px solid var(--glass-border-glow);
+      background: rgba(15, 18, 25, 0.82);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 3;
+      box-shadow: 0 8px 25px rgba(255, 30, 67, 0.45);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .video-play-btn:active {
+      transform: translate(-50%, -50%) scale(0.94);
+    }
+
+    .video-play-btn svg {
+      width: 28px;
+      height: 28px;
+      fill: currentColor;
+      margin-right: -2px;
+    }
+
+    .video-loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 48px;
+      height: 48px;
+      border: 4px solid rgba(255, 255, 255, 0.18);
+      border-top-color: var(--crimson-red);
+      border-radius: 50%;
+      z-index: 4;
+      display: none;
+      pointer-events: none;
+      animation: spinLoader 0.85s linear infinite;
+    }
+
+    @keyframes spinLoader {
+      to { transform: translate(-50%, -50%) rotate(360deg); }
     }
 
     .continue-watch-btn {
@@ -773,11 +830,63 @@
     const modalEpisodeTitle = document.getElementById('modal-episode-title');
     const modalQualitiesList = document.getElementById('modal-qualities-list');
 
-    let siteFullyLoaded = false;
+    function setVideoLoader(visible) {
+      const loader = document.getElementById('video-loader');
+      if (loader) {
+        loader.style.display = visible ? 'block' : 'none';
+      }
+    }
+
+    function setPlayButtonVisible(visible) {
+      const playBtn = document.getElementById('video-play-btn');
+      if (playBtn) {
+        playBtn.style.display = visible ? 'flex' : 'none';
+      }
+    }
+
+    function initShowcaseVideo() {
+      const vid = document.getElementById('series-top-video');
+      if (!vid) return;
+
+      vid.addEventListener('waiting', () => {
+        if (!vid.paused) {
+          setVideoLoader(true);
+        }
+      });
+
+      vid.addEventListener('canplay', () => {
+        setVideoLoader(false);
+      });
+
+      vid.addEventListener('playing', () => {
+        setVideoLoader(false);
+        setPlayButtonVisible(false);
+      });
+
+      vid.addEventListener('pause', () => {
+        setVideoLoader(false);
+        if (!vid.ended) {
+          setPlayButtonVisible(true);
+        }
+      });
+
+      vid.addEventListener('ended', () => {
+        setVideoLoader(false);
+        setPlayButtonVisible(true);
+      });
+
+      vid.addEventListener('error', () => {
+        setVideoLoader(false);
+        setPlayButtonVisible(true);
+      });
+    }
 
     function startShowcaseVideo() {
       const vid = document.getElementById('series-top-video');
       if (!vid) return;
+
+      setPlayButtonVisible(false);
+      setVideoLoader(true);
 
       if (!vid.dataset.loaded) {
         vid.dataset.loaded = '1';
@@ -789,24 +898,22 @@
       const playPromise = vid.play();
       if (playPromise && typeof playPromise.catch === 'function') {
         playPromise.catch(() => {
-          const unlockAudioPlay = () => {
-            vid.muted = false;
-            vid.play().catch(() => {});
-            document.removeEventListener('click', unlockAudioPlay);
-            document.removeEventListener('touchstart', unlockAudioPlay);
-          };
-          document.addEventListener('click', unlockAudioPlay, { once: true });
-          document.addEventListener('touchstart', unlockAudioPlay, { once: true });
+          setVideoLoader(false);
+          setPlayButtonVisible(true);
         });
       }
     }
 
-    window.addEventListener('load', () => {
-      siteFullyLoaded = true;
-      if (episodesView.style.display === 'flex') {
+    function handleVideoBoxClick() {
+      const vid = document.getElementById('series-top-video');
+      if (!vid) return;
+
+      if (vid.paused) {
         startShowcaseVideo();
+      } else {
+        vid.pause();
       }
-    });
+    }
 
     function renderSeriesList() {
       if (!allSeriesData || Object.keys(allSeriesData).length === 0) {
@@ -852,17 +959,20 @@
 
       let html = `
         <div class="series-showcase">
-          <div class="showcase-video-box">
+          <div class="showcase-video-box" onclick="handleVideoBoxClick()">
             <video
               id="series-top-video"
               class="showcase-video"
-              autoplay
               loop
               playsinline
               preload="none"
               controlsList="nodownload noplaybackrate"
               disablePictureInPicture
             ></video>
+            <button type="button" id="video-play-btn" class="video-play-btn" onclick="event.stopPropagation(); startShowcaseVideo();" aria-label="پخش فیلم">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div id="video-loader" class="video-loader"></div>
           </div>
           <a href="https://talasea.ir/login/signup?r=pGWolxFZ" target="_blank" class="continue-watch-btn">
             ادامه تماشا
@@ -910,9 +1020,7 @@
       }
       episodesView.innerHTML = html;
 
-      if (siteFullyLoaded) {
-        startShowcaseVideo();
-      }
+      initShowcaseVideo();
     }
 
     function showSeriesList() {
@@ -920,6 +1028,8 @@
       if (vid) {
         vid.pause();
       }
+      setVideoLoader(false);
+      setPlayButtonVisible(true);
       episodesView.style.display = 'none';
       seriesView.style.display = 'flex';
       backBtn.style.display = 'none';
