@@ -1101,28 +1101,32 @@
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
-      let html = `
-        <div class="series-showcase">
-          <div class="showcase-video-box" onclick="handleVideoBoxClick()">
-            <video
-              id="series-top-video"
-              class="showcase-video"
-              loop
-              playsinline
-              preload="none"
-              controlsList="nodownload noplaybackrate"
-              disablePictureInPicture
-            ></video>
-            <button type="button" id="video-play-btn" class="video-play-btn" onclick="event.stopPropagation(); startShowcaseVideo();" aria-label="پخش فیلم">
-              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            </button>
-            <div id="video-loader" class="video-loader"></div>
+      let html = '';
+
+      if (serialId === 'sorkh-o-siah') {
+        html += `
+          <div class="series-showcase">
+            <div class="showcase-video-box" onclick="handleVideoBoxClick()">
+              <video
+                id="series-top-video"
+                class="showcase-video"
+                loop
+                playsinline
+                preload="none"
+                controlsList="nodownload noplaybackrate"
+                disablePictureInPicture
+              ></video>
+              <button type="button" id="video-play-btn" class="video-play-btn" onclick="event.stopPropagation(); startShowcaseVideo();" aria-label="پخش فیلم">
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+              <div id="video-loader" class="video-loader"></div>
+            </div>
+            <a href="${defaultWatchLink}" target="_blank" class="continue-watch-btn">
+              ادامه تماشا
+            </a>
           </div>
-          <a href="${defaultWatchLink}" target="_blank" class="continue-watch-btn">
-            ادامه تماشا
-          </a>
-        </div>
-      `;
+        `;
+      }
 
       if (serial.episodes) {
         const sortedEpisodes = Object.entries(serial.episodes).reverse();
@@ -1164,7 +1168,9 @@
       }
       episodesView.innerHTML = html;
 
-      initShowcaseVideo();
+      if (serialId === 'sorkh-o-siah') {
+        initShowcaseVideo();
+      }
     }
 
     function showSeriesList() {
