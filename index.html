@@ -305,6 +305,53 @@
       z-index: 2;
     }
 
+    /* ---------------- Direct Link Box (No Image) ---------------- */
+    .direct-series-box {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: var(--radius-xl);
+      padding: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.6);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: fadeInCard 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .direct-series-box:active {
+      transform: scale(0.98);
+    }
+
+    @media(hover: hover) {
+      .direct-series-box:hover {
+        transform: translateY(-4px);
+        border-color: var(--glass-border-glow);
+        box-shadow: 0 16px 35px rgba(255, 30, 67, 0.22);
+      }
+    }
+
+    .direct-series-content {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .direct-series-badge {
+      background: linear-gradient(135deg, #ff1e43, #c80d2e);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 6px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+      box-shadow: 0 4px 14px var(--crimson-glow);
+    }
+
     .series-title {
       font-size: 1.25rem;
       font-weight: 800;
@@ -769,6 +816,17 @@
   </div>
 
   <script>
+    const defaultWatchLink = "https://talasea.ir/login/signup?r=pGWolxFZ";
+
+    // کادر بدون عکس در بخش سریال‌ها با لینک مستقیم تماشا و دانلود
+    const directSeriesLinks = [
+      {
+        title: "یل قسمت 7",
+        genres: ["معمایی", "هیجان‌انگیز", "درام"],
+        link: defaultWatchLink
+      }
+    ];
+
     // اطلاعات ثابت سریال و قسمت‌ها بدون نیاز به فایربیس و API خارجی
     const allSeriesData = {
       "sorkh-o-siah": {
@@ -780,42 +838,42 @@
             number: "1",
             name: "ریشه در خاک، سر در آتش",
             image: "photos/epi1.jpg",
-            link: "https://talasea.ir/login/signup?r=pGWolxFZ",
+            link: defaultWatchLink,
             sizes: { "480": "380mb", "720": "700mb", "1080": "1.2GB" }
           },
           "2": {
             number: "2",
             name: "آنتری که لوطی اش مرده بود",
             image: "photos/epi2.jpg",
-            link: "https://talasea.ir/login/signup?r=pGWolxFZ",
+            link: defaultWatchLink,
             sizes: { "480": "380mb", "720": "700mb", "1080": "1.2GB" }
           },
           "3": {
             number: "3",
             name: "عشق، سال‌های وبا",
             image: "photos/epi3.jpg",
-            link: "https://talasea.ir/login/signup?r=pGWolxFZ",
+            link: defaultWatchLink,
             sizes: { "480": "380mb", "720": "700mb", "1080": "1.2GB" }
           },
           "4": {
             number: "4",
             name: "یک عشق بی هنگام",
             image: "photos/epi4.jpg",
-            link: "https://talasea.ir/login/signup?r=pGWolxFZ",
+            link: defaultWatchLink,
             sizes: { "480": "380mb", "720": "700mb", "1080": "1.2GB" }
           },
           "5": {
             number: "5",
             name: "زنی که مردش را گم کرد",
             image: "photos/epi5.jpg",
-            link: "https://talasea.ir/login/signup?r=pGWolxFZ",
+            link: defaultWatchLink,
             sizes: { "480": "380mb", "720": "700mb", "1080": "1.2GB" }
           },
           "6": {
             number: "6",
             name: "یک عشق تازه",
             image: "photos/epi6.jpg",
-            link: "https://talasea.ir/login/signup?r=pGWolxFZ",
+            link: defaultWatchLink,
             sizes: { "480": "415mb", "720": "785mb", "1080": "1.45GB" }
           }
         }
@@ -916,13 +974,17 @@
     }
 
     function renderSeriesList() {
-      if (!allSeriesData || Object.keys(allSeriesData).length === 0) {
+      const hasSeries = allSeriesData && Object.keys(allSeriesData).length > 0;
+      const hasDirect = directSeriesLinks && directSeriesLinks.length > 0;
+
+      if (!hasSeries && !hasDirect) {
         seriesView.innerHTML = `<div class="loading-text">سریالی یافت نشد.</div>`;
         return;
       }
 
       let html = '';
       let index = 0;
+
       for (const [serialId, serial] of Object.entries(allSeriesData)) {
         const epCount = serial.episodes ? Object.keys(serial.episodes).length : 0;
         const genresStr = serial.genres ? serial.genres.join(' • ') : '';
@@ -943,6 +1005,23 @@
         `;
         index++;
       }
+
+      directSeriesLinks.forEach((item) => {
+        const genresStr = item.genres ? item.genres.join(' • ') : '';
+        const delay = index * 0.08;
+
+        html += `
+          <a href="${item.link}" target="_blank" class="direct-series-box" style="animation-delay: ${delay}s">
+            <div class="direct-series-content">
+              <h2 class="series-title">${item.title}</h2>
+              <span class="series-meta">${genresStr}</span>
+            </div>
+            <span class="direct-series-badge">دانلود و تماشا</span>
+          </a>
+        `;
+        index++;
+      });
+
       seriesView.innerHTML = html;
     }
 
@@ -974,7 +1053,7 @@
             </button>
             <div id="video-loader" class="video-loader"></div>
           </div>
-          <a href="https://talasea.ir/login/signup?r=pGWolxFZ" target="_blank" class="continue-watch-btn">
+          <a href="${defaultWatchLink}" target="_blank" class="continue-watch-btn">
             ادامه تماشا
           </a>
         </div>
