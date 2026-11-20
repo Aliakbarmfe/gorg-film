@@ -320,6 +320,80 @@
       gap: 6px;
     }
 
+    /* ---------------- Series Top Showcase (Video + Banner + CTA) ---------------- */
+    .series-showcase {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 12px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.6);
+    }
+
+    .showcase-video-box {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: #090b0f;
+      border: 1px solid var(--glass-border);
+      position: relative;
+    }
+
+    .showcase-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+    }
+
+    .showcase-video::-webkit-media-controls {
+      display: none !important;
+    }
+
+    .showcase-banner-box {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: #090b0f;
+      border: 1px solid var(--glass-border);
+    }
+
+    .showcase-banner {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .continue-watch-btn {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, #ff1e43, #c80d2e);
+      color: #fff;
+      font-size: 0.92rem;
+      font-weight: 800;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px var(--crimson-glow);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .continue-watch-btn:active {
+      transform: scale(0.98);
+    }
+
     /* ---------------- Episodes View ---------------- */
     .episodes-view {
       display: none;
@@ -715,6 +789,41 @@
     const modalEpisodeTitle = document.getElementById('modal-episode-title');
     const modalQualitiesList = document.getElementById('modal-qualities-list');
 
+    let siteFullyLoaded = false;
+
+    function startShowcaseVideo() {
+      const vid = document.getElementById('series-top-video');
+      if (!vid) return;
+
+      if (!vid.dataset.loaded) {
+        vid.dataset.loaded = '1';
+        vid.src = 'films/filmasli.mp4';
+        vid.load();
+      }
+
+      vid.muted = false;
+      const playPromise = vid.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => {
+          const unlockAudioPlay = () => {
+            vid.muted = false;
+            vid.play().catch(() => {});
+            document.removeEventListener('click', unlockAudioPlay);
+            document.removeEventListener('touchstart', unlockAudioPlay);
+          };
+          document.addEventListener('click', unlockAudioPlay, { once: true });
+          document.addEventListener('touchstart', unlockAudioPlay, { once: true });
+        });
+      }
+    }
+
+    window.addEventListener('load', () => {
+      siteFullyLoaded = true;
+      if (episodesView.style.display === 'flex') {
+        startShowcaseVideo();
+      }
+    });
+
     function renderSeriesList() {
       if (!allSeriesData || Object.keys(allSeriesData).length === 0) {
         seriesView.innerHTML = `<div class="loading-text">سریالی یافت نشد.</div>`;
@@ -757,7 +866,29 @@
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
-      let html = '';
+      let html = `
+        <div class="series-showcase">
+          <div class="showcase-video-box">
+            <video
+              id="series-top-video"
+              class="showcase-video"
+              autoplay
+              loop
+              playsinline
+              preload="none"
+              controlsList="nodownload noplaybackrate"
+              disablePictureInPicture
+            ></video>
+          </div>
+          <div class="showcase-banner-box">
+            <img class="showcase-banner" src="${serial.image}" alt="${serial.name}">
+          </div>
+          <a href="https://talasea.ir/login/signup?r=pGWolxFZ" target="_blank" class="continue-watch-btn">
+            ادامه تماشا
+          </a>
+        </div>
+      `;
+
       if (serial.episodes) {
         const sortedEpisodes = Object.entries(serial.episodes).reverse();
 
@@ -794,12 +925,20 @@
           `;
         });
       } else {
-        html = `<div class="loading-text">قسمتی برای این سریال ثبت نشده است.</div>`;
+        html += `<div class="loading-text">قسمتی برای این سریال ثبت نشده است.</div>`;
       }
       episodesView.innerHTML = html;
+
+      if (siteFullyLoaded) {
+        startShowcaseVideo();
+      }
     }
 
     function showSeriesList() {
+      const vid = document.getElementById('series-top-video');
+      if (vid) {
+        vid.pause();
+      }
       episodesView.style.display = 'none';
       seriesView.style.display = 'flex';
       backBtn.style.display = 'none';
