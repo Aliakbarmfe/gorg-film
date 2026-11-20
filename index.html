@@ -305,33 +305,35 @@
       z-index: 2;
     }
 
-    /* ---------------- Direct Link Box (No Image) ---------------- */
+    /* ---------------- Direct Link Box ---------------- */
     .direct-series-box {
+      position: relative;
       background: var(--card-bg);
       border: 1px solid var(--glass-border);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-radius: var(--radius-xl);
-      padding: 18px;
+      overflow: hidden;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
+      flex-direction: column;
       text-decoration: none;
       box-shadow: 0 12px 35px rgba(0,0,0,0.6);
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       animation: fadeInCard 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     .direct-series-box:active {
-      transform: scale(0.98);
+      transform: scale(0.97);
     }
 
     @media(hover: hover) {
       .direct-series-box:hover {
-        transform: translateY(-4px);
+        transform: translateY(-6px) scale(1.01);
         border-color: var(--glass-border-glow);
-        box-shadow: 0 16px 35px rgba(255, 30, 67, 0.22);
+        box-shadow: 0 18px 40px rgba(255, 30, 67, 0.25);
+      }
+      .direct-series-box:hover .series-img {
+        transform: scale(1.08);
       }
     }
 
@@ -339,6 +341,13 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
+    }
+
+    .direct-series-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
     }
 
     .direct-series-badge {
@@ -818,10 +827,11 @@
   <script>
     const defaultWatchLink = "https://talasea.ir/login/signup?r=pGWolxFZ";
 
-    // کادر بدون عکس در بخش سریال‌ها با لینک مستقیم تماشا و دانلود
+    // کادر در بخش سریال‌ها با لینک مستقیم تماشا و دانلود
     const directSeriesLinks = [
       {
         title: "یل قسمت 7",
+        image: "photos/yalfilm.jpg",
         genres: ["معمایی", "هیجان‌انگیز", "درام"],
         link: defaultWatchLink
       }
@@ -1012,11 +1022,17 @@
 
         html += `
           <a href="${item.link}" target="_blank" class="direct-series-box" style="animation-delay: ${delay}s">
-            <div class="direct-series-content">
-              <h2 class="series-title">${item.title}</h2>
+            <div class="series-img-wrapper">
+              <img class="series-img" src="${item.image}" alt="${item.title}" loading="lazy">
+              <div class="series-img-overlay"></div>
+            </div>
+            <div class="series-info direct-series-content">
+              <div class="direct-series-header">
+                <h2 class="series-title">${item.title}</h2>
+                <span class="direct-series-badge">دانلود و تماشا</span>
+              </div>
               <span class="series-meta">${genresStr}</span>
             </div>
-            <span class="direct-series-badge">دانلود و تماشا</span>
           </a>
         `;
         index++;
