@@ -665,36 +665,43 @@
             number: "1",
             name: "ریشه در خاک، سر در آتش",
             image: "photos/epi1.jpg",
-            link: "https://talasea.ir/login/signup?r=pGWolxFZ",
+            link: "https://talasea.ir/login/signup?r=TsRuIDtL",
             sizes: { "480": "380mb", "720": "700mb", "1080": "1.2GB" }
           },
           "2": {
             number: "2",
             name: "آنتری که لوطی اش مرده بود",
             image: "photos/epi2.jpg",
-            link: "https://talasea.ir/login/signup?r=pGWolxFZ",
+            link: "https://talasea.ir/login/signup?r=TsRuIDtL",
             sizes: { "480": "380mb", "720": "700mb", "1080": "1.2GB" }
           },
           "3": {
             number: "3",
             name: "عشق، سال‌های وبا",
             image: "photos/epi3.jpg",
-            link: "https://talasea.ir/login/signup?r=pGWolxFZ",
+            link: "https://talasea.ir/login/signup?r=TsRuIDtL",
             sizes: { "480": "380mb", "720": "700mb", "1080": "1.2GB" }
           },
           "4": {
             number: "4",
             name: "یک عشق بی هنگام",
             image: "photos/epi4.jpg",
-            link: "https://talasea.ir/login/signup?r=pGWolxFZ",
+            link: "https://talasea.ir/login/signup?r=TsRuIDtL",
             sizes: { "480": "380mb", "720": "700mb", "1080": "1.2GB" }
           },
           "5": {
             number: "5",
             name: "زنی که مردش را گم کرد",
             image: "photos/epi5.jpg",
-            link: "https://talasea.ir/login/signup?r=pGWolxFZ",
+            link: "https://talasea.ir/login/signup?r=TsRuIDtL",
             sizes: { "480": "380mb", "720": "700mb", "1080": "1.2GB" }
+          },
+          "6": {
+            number: "6",
+            name: "یک عشق تازه",
+            image: "photos/epi6.jpg",
+            link: "https://talasea.ir/login/signup?r=pGWolxFZ",
+            sizes: { "480": "415mb", "720": "785mb", "1080": "1.45GB" }
           }
         }
       }
@@ -756,7 +763,7 @@
 
         sortedEpisodes.forEach(([epId, episode], index) => {
           const sizesEncoded = encodeURIComponent(JSON.stringify(episode.sizes || {}));
-          const episodeLink = "https://talasea.ir/login/signup?r=pGWolxFZ";
+          const episodeLink = episode.link || '#';
           
           const isLatest = (index === 0);
           const newBadgeHtml = isLatest ? `<span class="new-episode-badge">قسمت جدید</span>` : '';
@@ -818,7 +825,7 @@
       for (const [resKey, sizeVal] of Object.entries(sizes)) {
         const info = qualityLabels[resKey] || { title: `کیفیت ${resKey}p`, format: "فرمت: ویدیو" };
         qHtml += `
-          <a href="https://talasea.ir/login/signup?r=pGWolxFZ" target="_blank" class="quality-option">
+          <a href="${episodeLink}" target="_blank" class="quality-option">
             <div class="quality-info">
               <span class="q-title">${info.title}</span>
               <span class="q-size">${info.format}</span>
